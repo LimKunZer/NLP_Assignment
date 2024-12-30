@@ -2,3 +2,4 @@ stopwordsiso == 0.6.1
 setuptools
 malaya == 5.1
 torchvision
+emoji == 2.14.0
