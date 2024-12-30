@@ -93,7 +93,7 @@ def preprocess_text(text):
   paddedText = torch.tensor(paddedText, dtype=torch.long) 
   # vocab = build_vocab_from_iterator(cnn_tokenizer.texts_to_sequences([preprocessedText])) 
   # indices = [vocab[paddedText] for token in paddedText if token in vocab] 
-  return torch.tensor(paddedText).unsqueeze(1) 
+  return paddedText.unsqueeze(1) 
 
 def predict_sentiment(model, text):
     cnn_model.eval()
