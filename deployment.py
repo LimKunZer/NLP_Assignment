@@ -8,6 +8,7 @@ import torch
 import pickle
 import tensorflow as tf
 from tensorflow import keras
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 import streamlit as st
 
 # define english and malay stopwords
