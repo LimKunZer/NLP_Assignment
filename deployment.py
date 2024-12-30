@@ -90,6 +90,7 @@ def preprocess_text(text):
   preprocessedText = remove_stopwords(normalisedText)
   tokenisedText = cnn_tokenizer.texts_to_sequences([preprocessedText])
   paddedText = pad_sequences(tokenisedText, maxlen = 50, padding = 'post')
+  paddedText = torch.tensor(paddedText, dtype=torch.long) 
   # vocab = build_vocab_from_iterator(cnn_tokenizer.texts_to_sequences([preprocessedText])) 
   # indices = [vocab[paddedText] for token in paddedText if token in vocab] 
   return torch.tensor(paddedText).unsqueeze(1) 
