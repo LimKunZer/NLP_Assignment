@@ -66,6 +66,13 @@ class SentimentCNN(nn.Module):
     cat = torch.cat(pooled, dim=1)  # cat: [batch_size, len(filter_sizes) * num_filters]
     cat = self.dropout(cat)
     return self.fc(cat)
+    
+  def predict(self, text):
+    self.eval()
+    input_tensor = preprocess_text(text)
+    with torch.no_grad():
+      predictions = self(input_tensor)
+    return predictions.argmax(dim=1).item()
 
 with open('cnn_tokenizer.pkl', 'rb') as handle:
   cnn_tokenizer = pickle.load(handle)
