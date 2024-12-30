@@ -9,8 +9,6 @@ import pickle
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras.preprocessing.sequence import pad_sequences
-# from torchtext import _torchtext
-# from torchtext.vocab import build_vocab_from_iterator
 import streamlit as st
 
 # define english and malay stopwords
@@ -61,7 +59,6 @@ class SentimentCNN(nn.Module):
     self.dropout = nn.Dropout(0.5)
     
   def forward(self, x):
-    # x: [batch_size, seq_len]
     x = self.embedding(x)  # x: [batch_size, seq_len, embedding_dim]
     x = x.unsqueeze(1)     # x: [batch_size, 1, seq_len, embedding_dim]
     conved = [torch.relu(conv(x)).squeeze(3) for conv in self.convs]  # List of [batch_size, num_filters, seq_len - filter_size[n] + 1]
@@ -75,46 +72,14 @@ with open('cnn_tokenizer.pkl', 'rb') as handle:
 
 cnn_model = SentimentCNN(5000, 128, 100, [2, 3, 4], 3)
 cnn_model.load_state_dict(torch.load('cnn_sentiment.pth'))
-# cnn_model.eval()
-# text = "This is a sample review!"
-# prediction = predict_sentiment(cnn_model, text)
-# print('Sentiment prediction:', prediction)
 
 st.title("Sentiment Prediction of Online Store Review (Malay/English)")
 
 review = st.text_input("Enter a store review in Malay and/or English: ")
 
-# def preprocess_text(text):
-#   cleanedText = remove_characters(add_spacing(review))
-#   normalisedText = normalise_words(cleanedText)
-#   preprocessedText = remove_stopwords(normalisedText)
-#   tokenisedText = cnn_tokenizer.texts_to_sequences([preprocessedText])
-#   paddedText = pad_sequences(tokenisedText, maxlen = 50, padding = 'post')
-#   paddedText = torch.tensor(paddedText, dtype=torch.long) 
-#   # vocab = build_vocab_from_iterator(cnn_tokenizer.texts_to_sequences([preprocessedText])) 
-#   # indices = [vocab[paddedText] for token in paddedText if token in vocab] 
-#   return paddedText.unsqueeze(1) 
-
-# def predict_sentiment(model, text):
-#     cnn_model.eval()
-#     input_tensor = preprocess_text(text)
-#     with torch.no_grad():
-#         predictions = model(input_tensor)
-#     return predictions.argmax(dim=1).item()
-
-# Example usage
-# text = "This is a sample review!"
-# cnn_model = SentimentCNN(cnnVocabSize, cnnEmbeddingDim, cnnNumFilters, cnnFilterSizes, cnnOutputDim)  # Ensure the model is defined
-# cnn_model.load_state_dict(torch.load('sentiment_cnn_model.pth'))
-# prediction = predict_sentiment(cnn_model, text)
-# print(f'Sentiment prediction: {prediction}')
-# prediction = predict_sentiment(cnn_model, review)
-
-
 if st.button("Get Sentiment"):
     if review.strip() != "":
       st.write('Sentiment prediction:', cnn_model.predict(review))      
-      # st.write('Sentiment prediction:', prediction)
     else:
       st.write("Please enter a review.")
 
