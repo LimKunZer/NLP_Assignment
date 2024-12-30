@@ -6,4 +6,3 @@ emoji == 2.14.0
 contractions
 kenlm
 pickle
-keras
