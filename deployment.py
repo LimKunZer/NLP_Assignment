@@ -95,7 +95,7 @@ def predict_sentiment(message, model, tokenizer, max_seq_len):
     inputs = torch.tensor(padded, dtype=torch.long)
     outputs = model(inputs)
     st.write(outputs.shape)
-    probabilities = torch.softmax(outputs, dim = 1).cpu().numpy()
+    probabilities = torch.softmax(outputs[1], dim = 1).cpu().numpy()
     predicted_label = class_names[np.argmax(probabilities)]
     return predicted_label
 
