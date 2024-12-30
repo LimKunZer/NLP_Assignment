@@ -4,3 +4,4 @@ malaya == 5.1
 torchvision
 emoji == 2.14.0
 contractions
+kenlm
