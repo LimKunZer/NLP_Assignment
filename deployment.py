@@ -108,11 +108,11 @@ review = st.text_input("Enter a store review in Malay and/or English: ")
 # cnn_model.load_state_dict(torch.load('sentiment_cnn_model.pth'))
 # prediction = predict_sentiment(cnn_model, text)
 # print(f'Sentiment prediction: {prediction}')
+# prediction = predict_sentiment(cnn_model, review)
 
 
 if st.button("Get Sentiment"):
     if review.strip() != "":
-      # prediction = predict_sentiment(cnn_model, review)
       st.write('Sentiment prediction:', cnn_model.predict(review))      
       # st.write('Sentiment prediction:', prediction)
     else:
