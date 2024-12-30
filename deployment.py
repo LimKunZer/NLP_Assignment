@@ -97,9 +97,9 @@ def predict_sentiment(message, model, tokenizer, max_seq_len):
     inputs = torch.tensor(padded, dtype=torch.long)
     outputs = model(inputs)
     probabilities = torch.softmax(outputs, dim = 1).cpu().numpy()
-    predicted_label = class_names[np.argmax(probabilities)]
     st.write(np.argmax(probabilities))
-  return predicted_label
+    predicted_label = class_names[np.argmax(probabilities)]
+    return predicted_label
 
 cnn_model = SentimentCNN(5000, 128, 100, [2, 3, 4], 3)
 cnn_model.load_state_dict(torch.load('cnn_sentiment.pth'))
