@@ -5,5 +5,4 @@ torchvision
 emoji == 2.14.0
 contractions
 kenlm
-pickle == 3.13.1
-tensorflow
+tensorflow #
