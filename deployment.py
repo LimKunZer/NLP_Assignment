@@ -112,7 +112,8 @@ def predict_sentiment(model, text):
 
 if st.button("Get Sentiment"):
     if review.strip() != "":
-      prediction = predict_sentiment(cnn_model, review)
+      # prediction = predict_sentiment(cnn_model, review)
+      cnn_model.predict(review)
       st.write('Sentiment prediction:', prediction)
     else:
       st.write("Please enter a review.")
