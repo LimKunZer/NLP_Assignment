@@ -72,10 +72,10 @@ with open('cnn_tokenizer.pkl', 'rb') as handle:
 
 cnn_model = SentimentCNN(5000, 128, 100, [2, 3, 4], 3)
 cnn_model.load_state_dict(torch.load('cnn_sentiment.pth'))
-cnn_model.eval()
-text = "This is a sample review!"
-prediction = predict_sentiment(cnn_model, text)
-print('Sentiment prediction:', prediction)
+# cnn_model.eval()
+# text = "This is a sample review!"
+# prediction = predict_sentiment(cnn_model, text)
+# print('Sentiment prediction:', prediction)
 
 st.title("Sentiment Prediction of Online Store Review (Malay/English)")
 
