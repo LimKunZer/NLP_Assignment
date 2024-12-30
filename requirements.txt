@@ -1,6 +1,3 @@
 stopwordsiso == 0.6.1
 malaya == 5.1
 emoji == 2.14.0
-contractions
-kenlm
-PySastrawi
