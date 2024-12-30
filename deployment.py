@@ -9,8 +9,8 @@ import pickle
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras.preprocessing.sequence import pad_sequences
-from torchtext import _torchtext
-from torchtext.vocab import build_vocab_from_iterator
+# from torchtext import _torchtext
+# from torchtext.vocab import build_vocab_from_iterator
 import streamlit as st
 
 # define english and malay stopwords
@@ -90,9 +90,9 @@ def preprocess_text(text):
   preprocessedText = remove_stopwords(normalisedText)
   tokenisedText = cnn_tokenizer.texts_to_sequences([preprocessedText])
   paddedText = pad_sequences(tokenisedText, maxlen = 50, padding = 'post')
-  vocab = build_vocab_from_iterator(cnn_tokenizer.texts_to_sequences([preprocessedText])) 
-  indices = [vocab[paddedText] for token in paddedText if token in vocab] 
-  return torch.tensor(indices).unsqueeze(0) 
+  # vocab = build_vocab_from_iterator(cnn_tokenizer.texts_to_sequences([preprocessedText])) 
+  # indices = [vocab[paddedText] for token in paddedText if token in vocab] 
+  return torch.tensor(paddedText).unsqueeze(0) 
 
 def predict_sentiment(model, text):
     cnn_model.eval()
