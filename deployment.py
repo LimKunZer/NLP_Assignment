@@ -1,4 +1,5 @@
 import stopwordsiso as stopwords
+import numpy as np
 import malaya
 import re
 import emoji
@@ -77,14 +78,46 @@ class SentimentCNN(nn.Module):
 with open('cnn_tokenizer.pkl', 'rb') as handle:
   cnn_tokenizer = pickle.load(handle)
 
-# Preprocess text
-def preprocess_text(text):
-    cleaned_text = remove_characters(add_spacing(text))
-    normalised_text = normalise_words(cleaned_text)
-    preprocessed_text = remove_stopwords(normalised_text)
-    tokenised_text = cnn_tokenizer.texts_to_sequences([preprocessed_text])
-    padded_text = pad_sequences(tokenised_text, maxlen=50, padding='post')
-    return torch.tensor(padded_text, dtype=torch.long).unsqueeze(0)  # Add batch dimension
+#################################
+
+# Define the class names (sentiment labels)
+with open('cnn_label_encoder.pkl', 'rb') as file:
+  cnn_label_encoder = pickle.load(file)
+  
+class_names = cnn_label_encoder.classes_  # Use your trained label encoder
+
+# Function to predict sentiment for an input message
+def predict_sentiment(message, model, tokenizer, max_seq_len):
+    # Preprocess the input message
+  seq = tokenizer.texts_to_sequences(message)
+  padded = pad_sequences(seq, maxlen=max_seq_len)
+
+    # Predict sentiment
+  model.eval()
+  with torch.no_grad():
+    inputs = torch.tensor(padded, dtype=torch.long)
+    outputs = model(inputs)
+    probabilities = torch.softmax(outputs, dim=1).cpu().numpy()
+    predicted_label = class_names[np.argmax(probabilities)]
+    
+  #print('Message: ' + str(message[0]))
+  #print('Predicted: {})'.format(predicted_label)
+  return predicted_label
+  
+
+# Call the function
+#predict_sentiment(message, cnn_model, cnn_tokenizer, 50)
+##################################
+
+
+# # Preprocess text
+# def preprocess_text(text):
+#     cleaned_text = remove_characters(add_spacing(text))
+#     normalised_text = normalise_words(cleaned_text)
+#     preprocessed_text = remove_stopwords(normalised_text)
+#     tokenised_text = cnn_tokenizer.texts_to_sequences([preprocessed_text])
+#     padded_text = pad_sequences(tokenised_text, maxlen=50, padding='post')
+#     return torch.tensor(padded_text, dtype=torch.long).unsqueeze(0)  # Add batch dimension
 
 cnn_model = SentimentCNN(5000, 128, 100, [2, 3, 4], 3)
 cnn_model.load_state_dict(torch.load('cnn_sentiment.pth'))
@@ -95,7 +128,8 @@ review = st.text_input("Enter a store review in Malay and/or English: ")
 
 if st.button("Get Sentiment"):
     if review.strip() != "":
-      st.write('Sentiment prediction:', cnn_model(preprocess_text(review)))
+#      st.write('Sentiment prediction:', cnn_model(preprocess_text(review)))
+      st.write('Sentiment prediction:', cnn_model(predict_sentiment(review, cnn_model, cnn_tokenizer, 50)))
     else:
       st.write("Please enter a review.")
 
