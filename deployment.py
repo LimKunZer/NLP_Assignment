@@ -40,6 +40,28 @@ def normalise_words(text):
 def remove_stopwords(text):
   return " ".join([word for word in text.split() if word not in stop_words])
 
+# Create CNN class
+class SentimentCNN(nn.Module):
+  def __init__(self, vocabSize, embeddingDim, numFilters, filterSizes, outputDim):
+    super(SentimentCNN, self).__init__()
+    self.embedding = nn.Embedding(vocabSize, embeddingDim)
+    self.convs = nn.ModuleList([
+      nn.Conv2d(in_channels=1, out_channels=numFilters, kernel_size=(fs, embeddingDim))
+      for fs in filterSizes
+    ])
+    self.fc = nn.Linear(len(filterSizes) * numFilters, outputDim)
+    self.dropout = nn.Dropout(0.5)
+    
+  def forward(self, x):
+    # x: [batch_size, seq_len]
+    x = self.embedding(x)  # x: [batch_size, seq_len, embedding_dim]
+    x = x.unsqueeze(1)     # x: [batch_size, 1, seq_len, embedding_dim]
+    conved = [torch.relu(conv(x)).squeeze(3) for conv in self.convs]  # List of [batch_size, num_filters, seq_len - filter_size[n] + 1]
+    pooled = [torch.max(c, dim=2)[0] for c in conved]  # List of [batch_size, num_filters]
+    cat = torch.cat(pooled, dim=1)  # cat: [batch_size, len(filter_sizes) * num_filters]
+    cat = self.dropout(cat)
+    return self.fc(cat)
+
 cnn_model = SentimentCNN(5000, 128, 100, [2, 3, 4], 3)
 cnn_model.load_state_dict(torch.load(model_path))
 cnn_model.eval()
