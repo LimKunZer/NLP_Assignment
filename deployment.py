@@ -69,7 +69,7 @@ class SentimentCNN(nn.Module):
     
   def predict(self, text):
     self.eval()
-    input_tensor = preprocess_text(text).squeeze(2).unsqueeze(1)
+    input_tensor = preprocess_text(text)
     with torch.no_grad():
       predictions = self(input_tensor)
     return predictions.argmax(dim=1).item()
@@ -95,7 +95,7 @@ review = st.text_input("Enter a store review in Malay and/or English: ")
 
 if st.button("Get Sentiment"):
     if review.strip() != "":
-      st.write('Sentiment prediction:', cnn_model(review))      
+      st.write('Sentiment prediction:', cnn_model(preprocess_text(review)))
     else:
       st.write("Please enter a review.")
 
