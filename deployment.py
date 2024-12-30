@@ -69,7 +69,7 @@ class SentimentCNN(nn.Module):
     
   def predict(self, text):
     self.eval()
-    input_tensor = preprocess_text(text)
+    input_tensor = preprocess_text(text).squeeze(2).unsqueeze(1)
     with torch.no_grad():
       predictions = self(input_tensor)
     return predictions.argmax(dim=1).item()
