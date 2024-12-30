@@ -109,7 +109,7 @@ review = st.text_input("Enter a store review in Malay and/or English: ")
 
 if st.button("Get Sentiment"):
     if review.strip() != "":
-      st.write('Sentiment prediction:', cnn_model(predict_sentiment(review, cnn_model, cnn_tokenizer, 50)))
+      st.write('Sentiment prediction:', predict_sentiment(review, cnn_model, cnn_tokenizer, 50))
     else:
       st.write("Please enter a review.")
 
