@@ -85,7 +85,7 @@ with open('cnn_label_encoder.pkl', 'rb') as file:
   
 class_names = cnn_label_encoder.classes_  # Use your trained label encoder
 
-st.write(len(class_names))
+st.write(len(class_names), 'test')
 
 # Function to predict sentiment for an input message
 def predict_sentiment(message, model, tokenizer, max_seq_len):
