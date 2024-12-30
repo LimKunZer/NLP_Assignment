@@ -99,8 +99,8 @@ def predict_sentiment(model, text):
 
 # Example usage
 # text = "This is a sample review!"
-cnn_model = SentimentCNN(cnnVocabSize, cnnEmbeddingDim, cnnNumFilters, cnnFilterSizes, cnnOutputDim)  # Ensure the model is defined
-cnn_model.load_state_dict(torch.load('sentiment_cnn_model.pth'))
+# cnn_model = SentimentCNN(cnnVocabSize, cnnEmbeddingDim, cnnNumFilters, cnnFilterSizes, cnnOutputDim)  # Ensure the model is defined
+# cnn_model.load_state_dict(torch.load('sentiment_cnn_model.pth'))
 # prediction = predict_sentiment(cnn_model, text)
 # print(f'Sentiment prediction: {prediction}')
 
