@@ -65,7 +65,7 @@ class SentimentCNN(nn.Module):
     return self.fc(cat)
 
 cnn_model = SentimentCNN(5000, 128, 100, [2, 3, 4], 3)
-cnn_model.load_state_dict(torch.load(model_path))
+cnn_model.load_state_dict(torch.load('cnn_sentiment.pth'))
 cnn_model.eval()
 text = "This is a sample review!"
 prediction = predict_sentiment(cnn_model, text)
