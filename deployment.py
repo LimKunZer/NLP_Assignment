@@ -87,17 +87,14 @@ class_names = cnn_label_encoder.classes_  # Use your trained label encoder
 
 # Function to predict sentiment for an input message
 def predict_sentiment(message, model, tokenizer, max_seq_len):
-    # Preprocess the input message
   seq = tokenizer.texts_to_sequences(message)
   padded = pad_sequences(seq, maxlen=max_seq_len)
 
-    # Predict sentiment
   model.eval()
   with torch.no_grad():
     inputs = torch.tensor(padded, dtype=torch.long)
     outputs = model(inputs)
     probabilities = torch.softmax(outputs, dim = 1).cpu().numpy()
-    st.write(np.argmax(probabilities))
     predicted_label = class_names[np.argmax(probabilities)]
     return predicted_label
 
