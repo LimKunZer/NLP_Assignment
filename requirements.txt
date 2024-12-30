@@ -5,5 +5,5 @@ torchvision
 emoji == 2.14.0
 contractions
 kenlm
+torchtext == 0.12.1
 tensorflow #
-torchtext
