@@ -3,6 +3,7 @@ import malaya
 import re
 import emoji
 import contractions
+import torch.nn as nn
 import streamlit as st
 
 # define english and malay stopwords
