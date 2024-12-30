@@ -9,7 +9,7 @@ import pickle
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras.preprocessing.sequence import pad_sequences
-import torchtext
+from torchtext import _extension
 from torchtext.vocab import build_vocab_from_iterator
 import streamlit as st
 
