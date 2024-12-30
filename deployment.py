@@ -85,7 +85,7 @@ def preprocess_text(text):
   cleanedText = remove_characters(add_spacing(review))
   normalisedText = normalise_words(cleanedText)
   preprocessedText = remove_stopwords(normalisedText)
-  tokenisedText = cnn_tokenizer.texts_to_sequences([preprocessText])
+  tokenisedText = cnn_tokenizer.texts_to_sequences([preprocessedText])
   paddedText = pad_sequences(tokenisedText, maxlen = 50, padding = 'post')
   indices = [vocab[paddedText] for token in paddedText if token in vocab] 
   return torch.tensor(indices).unsqueeze(0) 
