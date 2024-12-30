@@ -1,2 +1,3 @@
 stopwordsiso == 0.6.1
 setuptools
+malaya == 5.1
