@@ -77,6 +77,15 @@ class SentimentCNN(nn.Module):
 with open('cnn_tokenizer.pkl', 'rb') as handle:
   cnn_tokenizer = pickle.load(handle)
 
+# Preprocess text
+def preprocess_text(text):
+    cleaned_text = remove_characters(add_spacing(text))
+    normalised_text = normalise_words(cleaned_text)
+    preprocessed_text = remove_stopwords(normalised_text)
+    tokenised_text = cnn_tokenizer.texts_to_sequences([preprocessed_text])
+    padded_text = pad_sequences(tokenised_text, maxlen=50, padding='post')
+    return torch.tensor(padded_text, dtype=torch.long).unsqueeze(0)  # Add batch dimension
+
 cnn_model = SentimentCNN(5000, 128, 100, [2, 3, 4], 3)
 cnn_model.load_state_dict(torch.load('cnn_sentiment.pth'))
 
